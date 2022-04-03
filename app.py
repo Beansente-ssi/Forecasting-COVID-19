@@ -10,7 +10,7 @@ def load():
 
     return model, scaler
 
-@app.route("/forecast", methods=["POST", "GET"])
+@app.route("/", methods=["POST", "GET"])
 def index():
     url = 'https://covid-19-albay.herokuapp.com/api/history/0'
     x = requests.get(url)
