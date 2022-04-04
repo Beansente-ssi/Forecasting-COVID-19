@@ -64,5 +64,4 @@ def get_result(df, pred_values, days_ahead, scaler, dates):
     forecasted_cases = forecasted_cases.tolist() 
 
     forecasted_tuple = [(dates_list[i], forecasted_cases[i]) for i in range(0, len(dates_list))]
-    #print("forecasted.py",  forecasted_tuple)
     return forecasted_tuple
