@@ -65,4 +65,4 @@ secret = secrets.token_urlsafe(32)
 app.secret_key = secret
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
