@@ -1,17 +1,19 @@
 import os.path, secrets, pickle, forecast, requests, json
-from tensorflow.keras.models import load_model
+from tensorflow import keras
 from flask import Flask, render_template, request, redirect, flash
 
 app = Flask(__name__)
 
 def load():
-    model = load_model('model/uni_model.h5')
+    model = keras.models.load_model('model/uni_model.h5')
     scaler = pickle.load(open('model/scaler.pkl','rb'))
 
     return model, scaler
 
 @app.route("/", methods=["POST", "GET"])
 def index():
+    days_ahead = 13
+    time_steps = 30
     url = 'https://covid-19-albay.herokuapp.com/api/history/0'
     x = requests.get(url)
 
@@ -20,6 +22,7 @@ def index():
     cases = list(loaded_albay_data.values())
     data = forecast.process_json_data(dates, cases)
     
+    model, scaler = load()
     pred_values = forecast.forecast(data, days_ahead, model, time_steps, scaler)
     forecasted_tuple = forecast.get_result(data, pred_values, days_ahead, scaler, dates)
 
@@ -39,12 +42,15 @@ def calculate():
 def get_result():
     if request.method == "POST":
         try:
+            days_ahead = 13
+            time_steps = 30
             uploaded_file = request.files['file']
             basepath = os.path.dirname(__file__)
             path = os.path.join(basepath, "user-uploads", uploaded_file.filename)
             file = uploaded_file.save(path)
             file = forecast.read_file(path)
 
+            model, scaler = load()
             pred_values = forecast.forecast(file, days_ahead, model, time_steps, scaler)
             forecasted_tuple = forecast.get_result(file, pred_values, days_ahead, scaler, dates=None)
 
@@ -59,7 +65,4 @@ secret = secrets.token_urlsafe(32)
 app.secret_key = secret
 
 if __name__ == "__main__":
-    days_ahead = 13
-    time_steps = 30
-    model, scaler = load()
     app.run(debug=True)
