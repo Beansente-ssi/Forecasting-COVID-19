@@ -2,5 +2,6 @@ Flask==2.0.3
 numpy==1.22.3
 pandas==1.4.1
 requests==2.27.1
+scikit-learn
 tensorflow-cpu
 gunicorn
