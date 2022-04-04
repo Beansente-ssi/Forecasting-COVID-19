@@ -5,8 +5,8 @@ from flask import Flask, render_template, request, redirect, flash
 app = Flask(__name__)
 
 def load():
-    model = keras.models.load_model('model/uni_model.h5')
-    scaler = pickle.load(open('model/scaler.pkl','rb'))
+    model = keras.models.load_model('uni_model.h5')
+    scaler = pickle.load(open('scaler.pickle','rb'))
 
     return model, scaler
 
