@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 def load():
     model = tf.keras.models.load_model('uni_model.h5')
-    scaler = pickle.load(open('scaler.pkl','rb'))
+    scaler = pickle.load(open('scaler.pickle','rb'))
 
     return model, scaler
 
