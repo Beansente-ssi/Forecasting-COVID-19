@@ -66,7 +66,4 @@ secret = secrets.token_urlsafe(32)
 app.secret_key = secret
 
 if __name__ == "__main__":
-    days_ahead = 14
-    time_steps = 30
-    model, scaler = load()
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
