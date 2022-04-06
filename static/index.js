@@ -72,15 +72,28 @@ window.addEventListener('DOMContentLoaded', () => {
   async function lineChart(){
     const data = await fetch(total_url);
     const total = await data.json();
+    const date = Object.keys(total.cases);
+    const new_date = [];
+    const new_case = [];
+
+    for(var x = 0; x < date.length; x++){
+      const first = date[x].split('T');
+      new_date.push(first[0]);
+    }
+
+    Object.keys(total.cases).forEach((key) => {
+      new_case.push(total.cases[key]);
+    });
+    
     const parsed_total = JSON.parse(JSON.stringify(total));
     const cty = document.getElementById('overviewChart').getContext('2d');
     const overviewChart = new Chart(cty, {
     type: 'line',
     data: {
-      labels: Object.keys(total.cases),
+      labels: new_date,
       datasets: [{
           label: 'Daily Cases',
-          data: total.cases,
+          data: new_case,
           backgroundColor: '#001F23',
           borderColor: '#001F23',
           borderWidth: 2,
