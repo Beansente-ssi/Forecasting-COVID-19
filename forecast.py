@@ -10,8 +10,8 @@ def get_scaled(df, scaler, time_steps):
     return df_scaled
     
 def get_inverse(pred_values, scaler):
-    df_inverse = scaler.inverse_transform(pred_values.reshape(-1,1)).astype(int).reshape(-1)
-    return df_inverse
+    df_inverse = scaler.inverse_transform(pred_values.reshape(-1,1)).reshape(-1)
+    return np.round(df_inverse, decimals=0)
 
 def read_file(path):
    
@@ -49,6 +49,7 @@ def predict_dates(df, days_ahead, dates):
     
 def get_result(df, pred_values, days_ahead, scaler, dates):
     pred_cases = get_inverse(pred_values, scaler)
+    
     pred_cases = np.insert(pred_cases, 0, np.array(df.tail(1)['cases']), axis=0)
 
     if dates is None:
