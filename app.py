@@ -7,8 +7,8 @@ import numpy as np
 app = Flask(__name__)
 
 def load():
-    model = tf.keras.models.load_model('model/uni_model.h5')
-    scaler = pickle.load(open('model/scaler.pkl','rb'))
+    model = tf.keras.models.load_model('uni_model.h5')
+    scaler = pickle.load(open('scaler.pkl','rb'))
 
     return model, scaler
 
