@@ -204,12 +204,11 @@ main{
   color: white;
   display: inline-flex;
 }
-#forecastResultChart{
+.forecastResultChart{
   background-color: var(--blue);
-  max-width: 720px;
-  max-height: 382px;
+  padding: 30px; 
+  width: 50rem !important;
   border-radius: 12px;
-  padding: 10px;
   margin-top: 20px;
 }
 .forecast-text{
@@ -229,7 +228,12 @@ p{
   margin-top: 20px;
   z-index: -1;
 }
-
+.links{
+  color: var(--dark-green);
+}
+.links.hover{
+  color: pink;
+}
 .cases{
   width: inherit;
   height: inherit;
@@ -362,7 +366,29 @@ p{
   cursor: pointer;
   color: var(--error-btn);
 }
+.tooltip {
+  padding: 10px;
+}
 
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: auto;
+  padding: 5px;
+
+  background-color: var(--dark-green);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  opacity: 0.5;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 #error-message{
   justify-content: space-between;
   margin-left: 50px;
@@ -791,12 +817,10 @@ input[type=submit] {
 
   .forecast-text p{
     margin-top: -7px;
-    z-index: 1;
     font-size: 14px;
   }
 
   .forecast-text{
-    z-index: 1;
     width: 75%;
   }
   
@@ -943,6 +967,7 @@ input[type=submit] {
     margin-bottom: 20px;
     padding: 30px;
     margin-left: -10px;
+    height: auto !important;
   }
   
   .dismiss{
@@ -988,9 +1013,13 @@ input[type=submit] {
     margin-right: 0;
     padding: 5px;
   }
+  .forecastResultChart{
+    padding: 10px; 
+    width: auto !important;
+    border-radius: 7px;
+  }
   .bar-cases,
   .line-cases{
-    background-color: var(--bright);
     padding: 10px; 
     width: auto;
     border-radius: 7px;
@@ -1002,5 +1031,16 @@ input[type=submit] {
     margin-bottom: 30px;
     padding-left: auto !important;
   }
+  .tooltip {
+    display: inline-block;
+    padding: 10px;
+    width: auto !important;
+  }
+  
+  .tooltip .tooltiptext {
+    display: none;
+
+  }
+  
   
 }
