@@ -1,6 +1,6 @@
 import os.path, secrets, pickle, forecast, requests, json
 import tensorflow as tf
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, send_file
 import pandas as pd
 import numpy as np
 
@@ -9,17 +9,18 @@ app = Flask(__name__)
 def load():
     model = tf.keras.models.load_model('uni_model.h5')
     scaler = pickle.load(open('scaler.pkl','rb'))
-
     return model, scaler
 
 @app.route("/", methods=["POST", "GET"])
 def index():
+    # get forecasted result from the API (forecast page)
     if request.method == "GET":    
         future_url = 'https://covid-19-albay.herokuapp.com/api/history/30'
         past_url = 'https://covid-19-albay.herokuapp.com/api/history/0'
 
         future = requests.get(future_url)
         past = requests.get(past_url)
+
         days_ahead = 14
         time_steps = 30
         model, scaler = load()
@@ -75,6 +76,7 @@ def overview_statistics():
 def calculate():
     return render_template("calculate.html")
 
+# get result of the uploaded file by user
 @app.route("/forecast-calculation-result", methods=["POST", "GET"])
 def get_result():
     if request.method == "POST":
@@ -97,7 +99,16 @@ def get_result():
         except (ValueError, KeyError, TypeError):
             flash("Uh oh! It looks like the file you uploaded contains more columns than necessary. Please make sure that your file follows the format.")
             return redirect('/calculate-forecast')
-            
+
+@app.route("/download")
+def download_file():
+	path =  "./sample_dataset.csv"
+	return send_file(path, as_attachment=True)
+
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+    return render_template("errors.html")
+    
 secret = secrets.token_urlsafe(32)
 app.secret_key = secret
 
